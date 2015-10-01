@@ -4,7 +4,9 @@ Thermo MSFileReader is a C++ dynamic-link library (.dll) made available by Therm
 
 Here I make available my Python bindings for the version 3.0SP2 (August 2014) and 3.0SP3 (April 2015), both versions have been tested.
 53 / 174 functions have been binded (cf. DONE flag) and 20 / 174 have been considered redundant with already binded functions (cf. USELESS flag).
+
 NOTE: The function IsQExactive only works in the version 3.0SP3.
+
 NOTE: The official documentation seems more up-to-date in the 3.0SP2 version than in the 3.0SP3 version...
 
 
