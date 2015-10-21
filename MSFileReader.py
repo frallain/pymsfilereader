@@ -11,7 +11,7 @@ from collections import namedtuple
 from collections import OrderedDict
 from ctypes import *
 import copy
-__version__ = "MSFileReader 3.0 SP2 (3.0.29.0), Revision A, July 2014"
+__version__ = "Bindings_MSFileReader 3.0 SP3 (3.0.31.0), Apr 30, 2015"
 # XRawfile2(_x64).dll 3.0.29.0
 # fregistry(_x64).dll 3.0.0.0
 # Fileio(_x64).dll 3.0.0.0
