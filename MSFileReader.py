@@ -2133,9 +2133,13 @@ class ThermoRawfile(object):
         pass
         
 if __name__ == "__main__":
-    from pprint import pprint
+    if len(sys.argv) == 1:
+        print("A filename must be provided")
+        raise SystemExit
     
-    rawfile = ThermoRawfile(os.path.abspath(sys.argv[1]))
+    from pprint import pprint
+
+    rawfile = ThermoRawfile(" ".join(sys.argv[1:]))
     print( 'Version', rawfile.Version() )
     print( 'GetFileName', rawfile.GetFileName() )
     print( 'GetCreatorID', rawfile.GetCreatorID() )
