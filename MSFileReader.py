@@ -182,8 +182,12 @@ class ThermoRawfile(object):
         self.HighMass = self.GetHighMass()
         self.MassResolution = self.GetMassResolution()
         self.NumSpectra = self.GetNumSpectra()
-        self.InstMethodNames = self.GetInstMethodNames()
-        self.NumInstMethods = self.GetNumInstMethods()
+        try:
+            self.InstMethodNames = self.GetInstMethodNames()
+            self.NumInstMethods = self.GetNumInstMethods()
+        except IOError:
+            self.InstMethodNames = None
+            self.NumInstMethods = None
         self.NumStatusLog = self.GetNumStatusLog()
         self.NumErrorLog = self.GetNumErrorLog()
         self.NumTuneData = self.GetNumTuneData()
