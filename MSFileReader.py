@@ -146,6 +146,7 @@ class ThermoRawfile(object):
                             
     def __init__(self, filename, **kwargs):
         self.filename = os.path.abspath(filename)
+        self.filename = os.path.normpath(self.filename)
         self.source = None
         
         try:
