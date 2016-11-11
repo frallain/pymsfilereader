@@ -146,6 +146,7 @@ class ThermoRawfile(object):
                             
     def __init__(self, filename, **kwargs):
         self.filename = os.path.abspath(filename)
+        self.filename = os.path.normpath(self.filename)
         self.source = None
         
         try:
@@ -181,8 +182,12 @@ class ThermoRawfile(object):
         self.HighMass = self.GetHighMass()
         self.MassResolution = self.GetMassResolution()
         self.NumSpectra = self.GetNumSpectra()
-        self.InstMethodNames = self.GetInstMethodNames()
-        self.NumInstMethods = self.GetNumInstMethods()
+        try:
+            self.InstMethodNames = self.GetInstMethodNames()
+            self.NumInstMethods = self.GetNumInstMethods()
+        except IOError:
+            self.InstMethodNames = None
+            self.NumInstMethods = None
         self.NumStatusLog = self.GetNumStatusLog()
         self.NumErrorLog = self.GetNumErrorLog()
         self.NumTuneData = self.GetNumTuneData()
@@ -2132,9 +2137,13 @@ class ThermoRawfile(object):
         pass
         
 if __name__ == "__main__":
-    from pprint import pprint
+    if len(sys.argv) == 1:
+        print("A filename must be provided")
+        raise SystemExit
     
-    rawfile = ThermoRawfile(os.path.abspath(sys.argv[1]))
+    from pprint import pprint
+
+    rawfile = ThermoRawfile(" ".join(sys.argv[1:]))
     print( 'Version', rawfile.Version() )
     print( 'GetFileName', rawfile.GetFileName() )
     print( 'GetCreatorID', rawfile.GetCreatorID() )
