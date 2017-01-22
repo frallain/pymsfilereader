@@ -13,3 +13,24 @@ NOTE: The official documentation seems more up-to-date in the 3.0SP2 version tha
 The bindings are compatible with Python 2.7 and 3.4, they require the comtypes library available on http://www.lfd.uci.edu/~gohlke/pythonlibs/ for Python 2.x and 3.x. 
 The bindings require that you have installed previously the appropriate Thermo MSFileReader version depending of your Python version (32bits or 64bits) so that the .dll is registered to the Windows COM server.
 
+HOW TO get started :
+
+- Install Python 2 or 3
+- Install the comtypes library available on http://www.lfd.uci.edu/~gohlke/pythonlibs/
+- Install Thermo MSFileReader from https://thermo.flexnetoperations.com/control/thmo/product?plneID=632401 or from https://github.com/frallain/MSFileReader_Python_bindings/tree/master/MSFileReader
+
+The MSfilereader reference guide is in C++, my library make this C++ usable with Python.
+
+Finally, to use the library and extract data from a python script :
+
+```python
+import MSFileReader
+rawfile = MSFileReader.ThermoRawfile("myfile.raw")
+print( 'Version', rawfile.Version() )
+print( 'GetFileName', rawfile.GetFileName() )
+# see https://github.com/frallain/MSFileReader_Python_bindings/blob/master/MSFileReader.py#L2139L2382 for other functions
+rawfile.close()
+```
+
+
+  
