@@ -1,11 +1,11 @@
 
-## 3.1 SP2 (2016-04-11)
+## 3.1 SP2 / 3.1.5.0 (2016-04-11)
 
 This version features compatibility with Foundation 3.1 SP3 and Xcalibur 4.0
 
-## 3.0 SP3 (2015-04-30)
+## 3.0 SP3 / 3.0.31.0 (2015-04-30),
 
-
+- New function : IsQExactive
 
 ## 3.0 SP2 (2014-08-21)
 

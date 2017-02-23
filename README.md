@@ -16,7 +16,7 @@ The bindings require that you have installed previously the appropriate Thermo M
 HOW TO get started :
 
 - Install Python 2 or 3
-- Install the comtypes library available on http://www.lfd.uci.edu/~gohlke/pythonlibs/
+- Install the comtypes library available on http://www.lfd.uci.edu/~gohlke/pythonlibs/ with `pip install `comtype-package.whl`
 - Install Thermo MSFileReader from https://thermo.flexnetoperations.com/control/thmo/product?plneID=632401 or from https://github.com/frallain/MSFileReader_Python_bindings/tree/master/MSFileReader
 
 The MSfilereader reference guide is in C++, my library make this C++ usable with Python.
