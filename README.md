@@ -29,7 +29,7 @@ rawfile = MSFileReader.ThermoRawfile("myfile.raw")
 print( 'Version', rawfile.Version() )
 print( 'GetFileName', rawfile.GetFileName() )
 # see https://github.com/frallain/MSFileReader_Python_bindings/blob/master/MSFileReader.py#L2139L2382 for other functions
-rawfile.close()
+rawfile.Close()
 ```
 
 
