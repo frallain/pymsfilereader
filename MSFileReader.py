@@ -1563,7 +1563,7 @@ class ThermoRawfile(object):
                                                  byref(pnArraySize))
         if error:
             raise IOError("GetAveragedLabelData error :", error)
-        return peakList.value, Flags(*peakFlags.value)
+        return peakList.value, GetLabelData_Flags(*peakFlags.value)
 
     def GetNoiseData(self, scanNumber):  # already included in GetLabelData ?
         """This method enables you to read the FT-PROFILE noise packets of a scan represented by the scanNumber.

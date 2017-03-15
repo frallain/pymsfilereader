@@ -4,8 +4,18 @@
 import sys
 import os
 import time
+import re
 #### Related third party imports
 import pytest
+
+
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = OSError
+
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + os.sep + "..")
 
 THIS_FILE_DIR = os.path.dirname(os.path.abspath(__file__)) + os.sep
 
@@ -16,7 +26,7 @@ def rawfile():
 
 
 def test_Version(rawfile):
-    assert rawfile.Version() == '3.1.5.0'
+    assert re.match(r"\d+\.\d+\.\d+\.\d+", rawfile.Version())
 
 def test_GetFileName(rawfile):
     assert rawfile.GetFileName() == os.path.abspath(THIS_FILE_DIR + "Shew_246a_LCQa_15Oct04_Andro_0904-2_4-20.RAW")
