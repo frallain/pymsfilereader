@@ -1,6 +1,29 @@
 #!/bin/env python2.7
 # encoding: utf-8
 # Standard library imports
+#
+# The MIT License (MIT)
+#
+# Copyright (c) 2016 François ALLAIN
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 from __future__ import print_function
 import sys
 import os
@@ -8,12 +31,11 @@ import time
 import logging
 try:
     log = logging.getLogger(os.path.basename(__file__))
-except:
+except Exception:
     log = None
 
 from collections import namedtuple
 from ctypes import *
-import copy
 
 __version__ = "3.1.5.0"
 # XRawfile2(_x64).dll 3.0.29.0
@@ -31,7 +53,7 @@ else:
 
 try:
     WindowsError
-except:
+except NameError:
     raise ImportError("Platform Not Supported")
 
 try:
@@ -215,14 +237,8 @@ class ThermoRawfile(object):
                 2: 'ScanTypeZoom',
                 3: 'ScanTypeSRM'}
 
-    def __init__(self, filename, **kwargs):
-        self.filename = os.path.abspath(filename)
-        self.filename = os.path.normpath(self.filename)
-        self.source = None
-
-        if not DLL_IS_LOADED:
-            register_dll()
-
+    @staticmethod
+    def create_com_object():
         try:
             log.debug("obj = CreateObject('MSFileReader.XRawfile')")
             obj = CreateObject('MSFileReader.XRawfile')
@@ -234,8 +250,19 @@ class ThermoRawfile(object):
             except Exception as e:
                 log.debug(e)
                 raise ImportError(
-                    'Please install the appropriate Thermo MSFileReader\
-                     version depending of your Python version (32bits or 64bits)')
+                    ('Please install the appropriate Thermo MSFileReader'
+                     'version depending of your Python version (32bits or 64bits)\n%r') % e)
+        return obj
+
+    def __init__(self, filename, **kwargs):
+        self.filename = os.path.abspath(filename)
+        self.filename = os.path.normpath(self.filename)
+        self.source = None
+
+        if not DLL_IS_LOADED:
+            register_dll()
+
+        obj = self.create_com_object()
 
         self.source = obj
 
