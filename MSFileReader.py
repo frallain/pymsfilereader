@@ -180,6 +180,22 @@ class ThermoRawfile(object):
                 2: 'ScanTypeZoom',
                 3: 'ScanTypeSRM'}
 
+    GetLabelData_Labels = namedtuple('LabelData_Labels', 'mass intensity resolution baseline noise charge')
+
+    GetLabelData_Flags = namedtuple('LabelData_Flags', 'saturated fragmented merged exception reference modified')
+
+    GetAllMSOrderData_Labels = namedtuple('AllMSOrderData_Labels', 'mass intensity resolution baseline noise charge')
+
+    GetAllMSOrderData_Flags = namedtuple('AllMSOrderData_Flags', 'activation_type is_precursor_range_valid')
+
+    FullMSOrderPrecursorData = namedtuple('FullMSOrderPrecursorData',
+                                          ['precursorMass', 'isolationWidth', 'collisionEnergy', 'collisionEnergyValid',
+                                           'rangeIsValid',
+                                           'firstPrecursorMass', 'lastPrecursorMass', 'isolationWidthOffset'])
+
+    GetPrecursorInfoFromScanNum_PrecursorInfo = namedtuple('PrecursorInfo',
+                                                           'isolationMass monoIsoMass chargeState scanNumber')
+
     def __init__(self, filename):
         self.filename = os.path.abspath(filename)
         self.filename = os.path.normpath(self.filename)
@@ -1436,9 +1452,7 @@ class ThermoRawfile(object):
         error = self.source.GetLabelData(pvarLabels, pvarFlags, c_long(scanNumber))
         if error:
             raise IOError("GetLabelData error :", error)
-        Labels = namedtuple('Labels', 'mass intensity resolution baseline noise charge')
-        Flags = namedtuple('Flags', 'saturated fragmented merged exception reference modified')
-        return Labels(*pvarLabels.value), Flags(*pvarFlags.value)
+        return ThermoRawfile.GetLabelData_Labels(*pvarLabels.value), ThermoRawfile.GetLabelData_Flags(*pvarFlags.value)
 
     def GetAveragedLabelData(self, listOfScanNumbers):
         """This method enables you to read the averaged FT-PROFILE labels for the list of scans
@@ -1467,8 +1481,7 @@ class ThermoRawfile(object):
                                                  byref(pnArraySize))
         if error:
             raise IOError("GetAveragedLabelData error :", error)
-        Flags = namedtuple('Flags', 'saturated fragmented merged exception reference modified')
-        return peakList.value, Flags(*peakFlags.value)
+        return peakList.value, ThermoRawfile.GetLabelData_Flags(*peakFlags.value)
 
     def GetNoiseData(self, scanNumber):  # already included in GetLabelData ?
         """This method enables you to read the FT-PROFILE noise packets of a scan represented by the scanNumber.
@@ -1495,9 +1508,9 @@ class ThermoRawfile(object):
         error = self.source.GetAllMSOrderData(scanNumber, pvarLabels, pvarFlags, byref(pnNumberOfMSOrders))
         if error:
             raise IOError("GetNoiseData error :", error)
-        Labels = namedtuple('Labels', 'mass intensity resolution baseline noise charge')
-        Flags = namedtuple('Flags', 'activation_type is_precursor_range_valid')
-        return Labels(*pvarLabels.value), Flags(*pvarFlags.value), pnNumberOfMSOrders.value
+        return (ThermoRawfile.GetAllMSOrderData_Labels(*pvarLabels.value),
+                ThermoRawfile.GetAllMSOrderData_Flags(*pvarFlags.value),
+                pnNumberOfMSOrders.value)
 
     def GetFullMSOrderPrecursorDataFromScanNum(self, scanNumber, MSOrder):
         """This function retrieves information about the reaction data of a data-dependent MSn for the
@@ -1521,10 +1534,7 @@ class ThermoRawfile(object):
                                                                    byref(pvarFullMSOrderPrecursorInfo))
         if error:
             raise IOError("GetFullMSOrderPrecursorDataFromScanNum error :", error)
-        FullMSOrderPrecursorData = namedtuple('FullMSOrderPrecursorData',
-                                              'precursorMass isolationWidth collisionEnergy collisionEnergyValid '
-                                              'rangeIsValid firstPrecursorMass lastPrecursorMass isolationWidthOffset')
-        return FullMSOrderPrecursorData(*pvarFullMSOrderPrecursorInfo.value[:8])
+        return ThermoRawfile.FullMSOrderPrecursorData(*pvarFullMSOrderPrecursorInfo.value[:8])
 
     def GetMSOrderForScanNum(self, scanNumber):
         """This function returns the MS order for the scan specified by scanNumber from the scan
@@ -1592,9 +1602,10 @@ class ThermoRawfile(object):
             dMonoIsoMass, dIsolationMass = variant.value[:2]
             variant.vt = comtypes.automation.VT_ARRAY | comtypes.automation.VT_I4  # SAFEARRAY of long
             nChargeState, nScanNumber = variant.value[4:6]
-            PrecursorInfo = namedtuple('PrecursorInfo', 'isolationMass monoIsoMass chargeState scanNumber')
-            return PrecursorInfo(isolationMass=dIsolationMass, monoIsoMass=dMonoIsoMass, chargeState=nChargeState,
-                                 scanNumber=nScanNumber)
+            return ThermoRawfile.GetPrecursorInfoFromScanNum_PrecursorInfo(isolationMass=dIsolationMass,
+                                                                           monoIsoMass=dMonoIsoMass,
+                                                                           chargeState=nChargeState,
+                                                                           scanNumber=nScanNumber)
         else:
             return
 
