@@ -2694,7 +2694,7 @@ if __name__ == "__main__":
                                              endTime=rawfile.EndTime,
                                              massRange1="{}-{}".format(
                                                  rawfile.LowMass, rawfile.HighMass),
-                                             filter="Full ms "))
+                                             scanFilter="Full ms "))
     # print( 'GetChroByCompoundName', rawfile.GetChroByCompoundName(["methyltestosterone"]) )
 
     # print( 'GetMassPrecisionEstimate', rawfile.GetMassPrecisionEstimate(scanNumber) )
