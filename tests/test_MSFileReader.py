@@ -8,6 +8,15 @@ import re
 #### Related third party imports
 import pytest
 
+
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = OSError
+
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + os.sep + "..")
+
 THIS_FILE_DIR = os.path.dirname(os.path.abspath(__file__)) + os.sep
 
 try:
