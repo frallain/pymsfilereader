@@ -7,6 +7,13 @@ Here I make available some Python bindings that make the Thermo MSFileReader C++
 tested on versions 3.0SP2 (August 2014) and 3.0SP3 (April 2015).
 150 / 171 functions have been binded, 21 / 171 have been considered redundant with already binded functions (cf. REDUNDANT flag).
 
+NOTE: The 3.1 SP4 installer does not register properly the `XRawfile2_x64.dll`. As a consequence, to make it work:
+
+1. Install MSFileReader 3.1 SP4,
+2. backup the 3.1 SP4 `XRawfile2_x64.dll` file at `C:\Program Files\Thermo\MSFileReader\` somewhere,
+3. uninstall MSFileReader 3.1 SP4, then install MSFileReader 3.1 SP2,
+4. override the 3.1 SP2 `XRawfile2_x64.dll` file at `C:\Program Files\Thermo\MSFileReader\` with the 3.1 SP4 `XRawfile2_x64.dll` backed up previously.
+
 NOTE: The function IsQExactive only works in version 3.0SP3 and upwards.
 
 NOTE: The official documentation seems more up-to-date in the 3.0SP2 version than in the 3.0SP3 version...
@@ -15,8 +22,8 @@ NOTE: The official documentation seems more up-to-date in the 3.0SP2 version tha
 
 * Python 2.7 or 3.x
 * The comtypes library 
-    - `pip install comtypes`
-    - or available at http://www.lfd.uci.edu/~gohlke/pythonlibs/ and then `pip install comtype-package.whl`
+  * `pip install comtypes`
+  * or available at http://www.lfd.uci.edu/~gohlke/pythonlibs/ and then `pip install comtype-package.whl`
 * Thermo MSFileReader from https://thermo.flexnetoperations.com/control/thmo/product?plneID=632401 or from https://github.com/frallain/pymsfilereader/tree/master/MSFileReader.
 
 Note that these bindings require that you have installed the appropriate Thermo MSFileReader version depending on your Python architecture (32bits or 64bits) so that the .dll is registered with the right Windows COM server (32bits or 64bits).
