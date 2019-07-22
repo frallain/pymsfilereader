@@ -1,9 +1,8 @@
-#!/bin/env python2.7
 # encoding: utf-8
 #
 # The MIT License (MIT)
 #
-# Copyright (c) 2016 François ALLAIN
+# Copyright (c) 2019 François ALLAIN
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -31,13 +30,7 @@ import logging
 from collections import namedtuple
 from ctypes import *
 
-__version__ = "3.1.5.0"
-# XRawfile2(_x64).dll 3.0.29.0
-# fregistry(_x64).dll 3.0.0.0
-# Fileio(_x64).dll 3.0.0.0
-# cf.
-# https://thermo.flexnetoperations.com/control/thmo/login?username=frallain@gmail.com&password=B8g-72&action=authenticate&nextURL=index
-# -> Utility Software
+
 
 # Related third party imports
 if sys.version_info.major == 2 and sys.version_info.minor < 7:
