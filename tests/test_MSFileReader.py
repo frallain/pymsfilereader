@@ -1,9 +1,13 @@
 #!/bin/env python2.7
 # encoding: utf-8
+import ctypes
 import os
 import re
 import sys
 import time
+
+IS_32_BITS_PYTHON = ctypes.sizeof(ctypes.c_voidp)==4
+# 4 for 32 bit or 8 for 64 bit. 
 
 from fixtures import *
 
@@ -475,7 +479,12 @@ def test_GetFullMSOrderPrecursorDataFromScanNum(rawfile):
     assert precursorData.precursorMass == 50.0
     assert precursorData.isolationWidth == 1.0
     assert precursorData.collisionEnergy == 25.0
-    assert precursorData.collisionEnergyValid == 5e-324
+
+    if (sys.version_info.major, sys.version_info.minor) == (2, 7) and IS_32_BITS_PYTHON:
+        assert precursorData.collisionEnergyValid >= 1e+200
+    else:
+        assert precursorData.collisionEnergyValid <= 1e-200
+
     assert precursorData.rangeIsValid == 0.0
     assert precursorData.firstPrecursorMass == 0.0
     assert precursorData.lastPrecursorMass == 0.0
