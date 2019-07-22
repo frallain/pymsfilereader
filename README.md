@@ -20,8 +20,8 @@ NOTE: The official documentation seems more up-to-date in the 3.0SP2 version tha
 
 ## Requirements
 
-* Python 2.7 or 3.x
-* The comtypes library 
+* Python 2.7 or 3.x, MSFileReader 3.1 is 64-bits only, MSFileReader 3.0 is 32 and 64-bits.
+* The comtypes library
   * `pip install comtypes`
   * or available at http://www.lfd.uci.edu/~gohlke/pythonlibs/ and then `pip install comtype-package.whl`
 * Thermo MSFileReader from https://thermo.flexnetoperations.com/control/thmo/product?plneID=632401 or from https://github.com/frallain/pymsfilereader/tree/master/MSFileReader.

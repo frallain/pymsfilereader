@@ -132,6 +132,8 @@ FullMSOrderPrecursorData = namedtuple(
 GetPrecursorInfoFromScanNum_PrecursorInfo = namedtuple(
     'PrecursorInfo', 'isolationMass monoIsoMass chargeState scanNumber')
 
+VersionAsATuple = namedtuple(
+    'VersionAsATuple', 'major minor subminor buildnumber')
 
 def _to_float(x):
     try:
@@ -303,15 +305,20 @@ class ThermoRawfile(object):
         self.source.Close()
 
     def Version(self):  # MSFileReader DLL version
-        """This function returns the version number for the DLL."""
+        """This function returns the version of the XRawfile2_x64.dll file as a string."""
+        return '{}.{}.{}.{}'.format(*list(self.VersionAsATuple()))
+
+    def VersionAsATuple(self):  # MSFileReader DLL version
+        """This function returns the version of the XRawfile2_x64.dll file as a tuple
+        (Major, Minor, SubMinor, BuildNumber)."""
         MajorVersion, MinorVersion, SubMinorVersion, BuildNumber = c_long(
         ), c_long(), c_long(), c_long()
         error = self.source.Version(byref(MajorVersion), byref(
             MinorVersion), byref(SubMinorVersion), byref(BuildNumber))
         if error:
             raise IOError("Version error :", error)
-        return '{}.{}.{}.{}'.format(
-            MajorVersion.value, MinorVersion.value, SubMinorVersion.value,
+
+        return VersionAsATuple(MajorVersion.value, MinorVersion.value, SubMinorVersion.value,
             BuildNumber.value)
 
     def GetFileName(self):
