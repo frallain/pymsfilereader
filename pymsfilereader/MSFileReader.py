@@ -124,7 +124,7 @@ except NameError:
 
 
 # noinspection PyPep8Naming
-class ThermoRawfile(object):
+class MSFileReader(object):
     # static class members
 
     sampleType = {0: 'Unknown',
@@ -428,7 +428,7 @@ class ThermoRawfile(object):
         Controller Type in the Enumerated Types section for a list of the available controller types
         and their respective values."""
         if isinstance(controllerType, basestring):
-            controllerType = ThermoRawfile.controllerType[controllerType]
+            controllerType = MSFileReader.controllerType[controllerType]
         pnNumControllersOfType = c_long()
         error = self.source.GetNumberOfControllersOfType(
             c_long(controllerType), byref(pnNumControllersOfType))
@@ -444,7 +444,7 @@ class ThermoRawfile(object):
         error = self.source.GetControllerType(index, byref(controllerType))
         if error:
             raise IOError("GetControllerType error :", error)
-        return ThermoRawfile.controllerType[controllerType.value]
+        return MSFileReader.controllerType[controllerType.value]
 
     def SetCurrentController(self, controllerType, controllerNumber):
         """Sets the current controller in the raw file. This function must be called before subsequent calls
@@ -456,7 +456,7 @@ class ThermoRawfile(object):
         at 1. See Controller Type in the Enumerated Types section for a list of the available controller
         types and their respective values."""
         if isinstance(controllerType, basestring):
-            controllerType = ThermoRawfile.controllerType[controllerType]
+            controllerType = MSFileReader.controllerType[controllerType]
         error = self.source.SetCurrentController(
             c_long(controllerType), c_long(controllerNumber))
         if error:
@@ -943,7 +943,7 @@ class ThermoRawfile(object):
             c_long(scanNumber), c_long(MSOrder), byref(result))
         if error:
             raise IOError("GetActivationTypeForScanNum error :", error)
-        return ThermoRawfile.activationType[result.value]
+        return MSFileReader.activationType[result.value]
 
     def GetMassAnalyzerTypeForScanNum(self, scanNumber):
         """This function returns the mass analyzer type for the scan specified by scanNumber from the
@@ -964,7 +964,7 @@ class ThermoRawfile(object):
         if error:
             raise IOError("GetMassAnalyzerTypeForScanNum error :", error)
         try:
-            massAnalyzerType = ThermoRawfile.massAnalyzerType[result.value]
+            massAnalyzerType = MSFileReader.massAnalyzerType[result.value]
         except KeyError:
             massAnalyzerType = "Unknown"
         return massAnalyzerType
@@ -982,7 +982,7 @@ class ThermoRawfile(object):
             c_long(scanNumber), byref(result))
         if error:
             raise IOError("GetDetectorTypeForScanNum error :", error)
-        return ThermoRawfile.detectorType[result.value]
+        return MSFileReader.detectorType[result.value]
 
     def GetScanTypeForScanNum(self, scanNumber):
         """This function returns the scan type for the scan specified by scanNumber from the scan
@@ -997,7 +997,7 @@ class ThermoRawfile(object):
             c_long(scanNumber), byref(result))
         if error:
             raise IOError("GetScanTypeForScanNum error :", error)
-        return ThermoRawfile.scanType[result.value]
+        return MSFileReader.scanType[result.value]
 
     def GetNumberOfMassCalibratorsFromScanNum(self, scanNumber):
         """This function gets the number of mass calibrators (each of which is a double) in the scan."""
@@ -1959,7 +1959,7 @@ class ThermoRawfile(object):
         error = self.source.GetSeqRowSampleType(byref(result))
         if error:
             raise IOError("GetSeqRowSampleType error : ", error)
-        return ThermoRawfile.sampleType[result.value]
+        return MSFileReader.sampleType[result.value]
 
     def GetSeqRowDataPath(self):
         """Returns the path of the directory where this raw file was acquired.
@@ -2487,7 +2487,7 @@ if __name__ == "__main__":
 
     from pprint import pprint
 
-    rawfile = ThermoRawfile(" ".join(sys.argv[1:]))
+    rawfile = MSFileReader(" ".join(sys.argv[1:]))
     print('Version', rawfile.Version())
     print('GetFileName', rawfile.GetFileName())
     print('GetCreatorID', rawfile.GetCreatorID())

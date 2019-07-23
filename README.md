@@ -37,9 +37,9 @@ Unit tests are done with pytest. Just `pip install pytest` and run `pytest` at t
 For convenience, the example below can be run on any rawfile by running `python MSFileReader.py myfile.raw`.
 
 ```python
-import MSFileReader
+from pymsfilereader import MSFileReader
 
-rawfile = MSFileReader.ThermoRawfile("myfile.raw")
+rawfile = MSFileReader("myfile.raw")
 
 print('Version', rawfile.Version())
 print('GetFileName', rawfile.GetFileName())

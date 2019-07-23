@@ -6,7 +6,7 @@ import pytest
 THIS_FILE_DIR = os.path.dirname(os.path.abspath(__file__)) + os.sep
 sys.path.append(THIS_FILE_DIR + ".." + os.sep + "..")
 
-from pymsfilereader import ThermoRawfile
+from pymsfilereader import MSFileReader
 
 
 rawfilename_ = THIS_FILE_DIR + "Shew_246a_LCQa_15Oct04_Andro_0904-2_4-20.RAW"
@@ -19,7 +19,7 @@ def rawfilename():
 
 @pytest.fixture(scope="session")
 def rawfile():
-    rawfile = ThermoRawfile(rawfilename_)
+    rawfile = MSFileReader(rawfilename_)
     yield rawfile
     rawfile.Close()
 

@@ -481,7 +481,7 @@ def test_GetFullMSOrderPrecursorDataFromScanNum(rawfile):
     assert precursorData.collisionEnergy == 25.0
 
     if (sys.version_info.major, sys.version_info.minor) == (2, 7) and IS_32_BITS_PYTHON:
-        assert precursorData.collisionEnergyValid >= 1e+200
+        assert precursorData.collisionEnergyValid >= 1e+100
     else:
         assert precursorData.collisionEnergyValid <= 1e-200
 
