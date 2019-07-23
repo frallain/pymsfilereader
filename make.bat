@@ -9,7 +9,8 @@ goto :eof ::can be ommited to run the `default` function similarly to makefiles
 
 :default
 echo DEFAULT
-python36 setup.py sdist bdist_wheel bdist_wininst bdist_msi 
+python36 setup.py sdist bdist_wheel  
+REM python36 setup.py sdist bdist_wheel bdist_wininst bdist_msi 
 goto :eof
 
 :tests
@@ -28,16 +29,17 @@ goto :eof
 
 :shipit
 echo UPLOAD TO PYPI
-twine upload dist/*
+python36 -m twine upload dist/*
 goto :eof
 
 :clean
 echo CLEAN
+rd /s /q .pytest_cache
 rd /s /q dist
 rd /s /q build
-rd /s /q *.egg-info
-for /d /r %i in (__pycache__) do @rmdir /s "%i"
-for /d /r %i in (*.meth) do @rmdir /s "%i"
-for /d /r %i in (*.pyc) do @rmdir /s "%i"
+rd /s /q "pymsfilereader.egg-info"
+python36 -c "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]')]"
+python36 -c "import pathlib; [p.rmdir()  for p in pathlib.Path('.').rglob('__pycache__')]"
+python36 -c "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.meth')]"
 
 goto :eof
