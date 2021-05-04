@@ -2,7 +2,7 @@
 
 MSFileReader, the underlying library used by these bindings, is outdated and buggy. 
 Thermo now recommends to use RawFileReader (https://planetorbitrap.com/rawfilereader) to read Thermo RAW files.
-Some opensource Python bindings have been developed and are available @ https://github.com/kevinkovalchik/RawTools .
+Some opensource Python bindings have been developed and are available @ https://github.com/kevinkovalchik/RawQuant / https://pypi.org/project/RawQuant/ .
 
 # Thermo MSFileReader Python bindings
 
